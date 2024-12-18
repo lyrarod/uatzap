@@ -43,41 +43,46 @@ export const CreateUser = () => {
   }, [formState]);
 
   return (
-    <form
-      action={formAction}
-      className="container flex flex-col items-center w-full max-w-lg gap-y-6"
-    >
-      <h1 className="flex items-center text-4xl font-bold text-primary gap-x-1">
-        <MessageCircleCodeIcon className="size-12" />
-        UatZap
-      </h1>
-      <Input
-        ref={inputRef}
-        name="username"
-        placeholder={
-          showMessage ? formState?.message : "Digite seu nome de usuário"
-        }
-        required
-        type="search"
-        maxLength={20}
-        disabled={pending}
-        onChange={() => setShowMessage(false)}
-        className={cn("", {
-          "border-red-500 placeholder:text-red-500 focus-visible:ring-red-500 animate-pulse":
-            showMessage,
-        })}
-      />
+    <div className="container flex items-center justify-center w-full">
+      <form
+        action={formAction}
+        className="flex flex-col w-full max-w-sm px-4 py-12 bg-white rounded-md shadow gap-y-6 dark:bg-card"
+      >
+        <h1 className="flex items-center justify-center text-4xl font-bold text-primary gap-x-1">
+          <MessageCircleCodeIcon className="size-12" />
+          UatZap
+        </h1>
+        <Input
+          ref={inputRef}
+          name="username"
+          placeholder={
+            showMessage ? formState?.message : "Digite seu nome de usuário"
+          }
+          required
+          type="search"
+          maxLength={20}
+          disabled={pending}
+          onChange={() => setShowMessage(false)}
+          className={cn(
+            "placeholder:text-sm text-sm border-primary placeholder:italic placeholder:tracking-tight placeholder:text-border text-border",
+            {
+              "border-red-500 placeholder:text-red-500 focus-visible:ring-red-500 animate-pulse ":
+                showMessage,
+            }
+          )}
+        />
 
-      <Button type="submit" disabled={pending} className="w-full">
-        {pending ? (
-          <>
-            <Loader className="animate-spin" />
-            Conectando...
-          </>
-        ) : (
-          "Conectar"
-        )}
-      </Button>
-    </form>
+        <Button type="submit" disabled={pending} className="w-full">
+          {pending ? (
+            <>
+              <Loader className="animate-spin" />
+              Conectando...
+            </>
+          ) : (
+            "Conectar"
+          )}
+        </Button>
+      </form>
+    </div>
   );
 };

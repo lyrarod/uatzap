@@ -33,7 +33,7 @@ export async function createUser(prevState: any, formData: FormData) {
     };
   }
 
-  await delay();
+  await delay(1500);
   const cookieStore = await cookies();
   cookieStore.set("chatapp:uid", uuidv4(), { maxAge: 60 * 60 * 72 });
   cookieStore.set("chatapp:user", username, { maxAge: 60 * 60 * 72 });
