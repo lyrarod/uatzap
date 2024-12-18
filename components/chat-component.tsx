@@ -91,7 +91,7 @@ export const ChatComponent = ({ user }: { user: UserType }) => {
     <>
       <ul
         ref={scrollRef}
-        className="w-full flex flex-col h-[calc(100vh-84px*1.5)] !overflow-y-auto py-6 gap-y-4 container items-center justify-center"
+        className="w-full flex flex-col h-[calc(100vh-84px*1.5)] !overflow-y-auto py-10 gap-y-6 container"
       >
         {messages?.map((message) => (
           <li
