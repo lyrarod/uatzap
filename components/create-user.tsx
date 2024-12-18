@@ -45,7 +45,7 @@ export const CreateUser = () => {
   return (
     <form
       action={formAction}
-      className="container flex flex-col items-center w-full max-w-sm gap-y-6"
+      className="container flex flex-col items-center w-full max-w-lg gap-y-6"
     >
       <h1 className="flex items-center text-4xl font-bold text-primary gap-x-1">
         <MessageCircleCodeIcon className="size-12" />
