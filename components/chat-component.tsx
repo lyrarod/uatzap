@@ -128,7 +128,7 @@ export const ChatComponent = ({ user }: { user: UserType }) => {
             name="message"
             type="search"
             placeholder="Digite sua mensagem"
-            className="w-full bg-white border-0 dark:border focus-visible:ring-0 dark:bg-background"
+            className="w-full bg-white border-0 dark:border dark:bg-background"
             onFocus={() =>
               scrollRef.current?.scrollTo(0, scrollRef.current.scrollHeight)
             }
