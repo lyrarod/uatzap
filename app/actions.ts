@@ -40,7 +40,7 @@ export async function createSession(prevState: any, formData: FormData) {
       uid: uuidv4(),
       user: username,
     }),
-    maxAge: 300,
-    // maxAge: 3600 * 24,
+    // maxAge: 300,
+    maxAge: 3600 * 24,
   });
 }
