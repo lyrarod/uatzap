@@ -3,9 +3,9 @@ import { ChatComponent } from "@/components/chat-component";
 import { getSession } from "../actions";
 
 export default async function Chat() {
-  const { session, loggedIn } = await getSession();
+  const { session, isLoggedIn } = await getSession();
 
-  if (!loggedIn) {
+  if (!isLoggedIn) {
     redirect("/");
   }
 

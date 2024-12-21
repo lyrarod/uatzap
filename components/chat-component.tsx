@@ -16,8 +16,8 @@ import {
 import { cn, delay } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Loader, SendHorizonal } from "lucide-react";
-import { getSession } from "@/app/actions";
+import { Loader, LogOut, SendHorizonal, User } from "lucide-react";
+import { getSession, logout } from "@/app/actions";
 
 type MessagesType = {
   [x: string]: any;
@@ -66,8 +66,8 @@ export const ChatComponent = ({ session }: { session: SessionType }) => {
 
     setIsLoading(true);
 
-    const { loggedIn } = await getSession();
-    if (!loggedIn) {
+    const { isLoggedIn } = await getSession();
+    if (!isLoggedIn) {
       await delay(500);
       redirect("/");
     }
@@ -87,10 +87,25 @@ export const ChatComponent = ({ session }: { session: SessionType }) => {
   }
 
   return (
-    <>
+    <div>
+      <header className="fixed top-0 z-50 w-full py-6 shadow bg-background/60 backdrop-blur dark:border-b">
+        <div className="container flex items-center justify-between w-full gap-x-2">
+          <div className="flex items-center gap-x-2">
+            <Button className="rounded-full size-9 bg-primary">
+              <User />
+            </Button>
+            <strong className="text-muted-foreground">{session?.user}</strong>
+          </div>
+          <Button onClick={() => logout()} variant={"outline"}>
+            <LogOut />
+            Sair
+          </Button>
+        </div>
+      </header>
+
       <ul
         ref={scrollRef}
-        className="w-full flex flex-col h-[calc(100vh-84px*1.5)] !overflow-y-auto py-10 gap-y-6 container"
+        className="w-full flex flex-col h-[calc(100vh-84px*2)] !overflow-y-auto pb-4 pt-24 gap-y-6 container"
       >
         {messages?.map((message) => (
           <li
@@ -148,6 +163,6 @@ export const ChatComponent = ({ session }: { session: SessionType }) => {
           </Button>
         </form>
       </div>
-    </>
+    </div>
   );
 };

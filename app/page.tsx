@@ -3,10 +3,9 @@ import { redirect } from "next/navigation";
 import { CreateUser } from "@/components/create-user";
 
 export default async function Home() {
-  const { session, loggedIn } = await getSession();
-  console.log("session: ", session);
+  const { isLoggedIn } = await getSession();
 
-  if (loggedIn) redirect("/chat");
+  if (isLoggedIn) redirect("/chat");
 
   return (
     <main className="flex flex-col items-center justify-center min-h-screen">

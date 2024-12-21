@@ -3,12 +3,19 @@
 import { cookies } from "next/headers";
 import { v4 as uuidv4 } from "uuid";
 import { delay } from "@/lib/utils";
+import { redirect } from "next/navigation";
+
+export async function logout() {
+  const cookieStore = await cookies();
+  cookieStore.delete("chatapp");
+  redirect("/");
+}
 
 export async function getSession() {
   const cookieStore = await cookies();
 
   return {
-    loggedIn: cookieStore.has("chatapp"),
+    isLoggedIn: cookieStore.has("chatapp"),
     session: JSON.parse(cookieStore.get("chatapp")?.value || "{}"),
   };
 }
