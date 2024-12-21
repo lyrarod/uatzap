@@ -1,17 +1,17 @@
 import { initializeApp } from "firebase/app";
 import {
   getFirestore,
-  // connectFirestoreEmulator
+  //  connectFirestoreEmulator
 } from "firebase/firestore";
 // import { getAuth, connectAuthEmulator } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAA6s7dCv9tZBDhLOgLAhTqTBPq6-pWhJ0",
-  authDomain: "chat-f724b.firebaseapp.com",
-  projectId: "chat-f724b",
-  storageBucket: "chat-f724b.firebasestorage.app",
-  messagingSenderId: "101760907115",
-  appId: "1:101760907115:web:0154e7c169e27ed9a7fe2e",
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_APIKEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTHDOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECTID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGEBUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGINGSENDERID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APPID,
 };
 
 // Initialize Firebase

@@ -1,10 +1,13 @@
-import { getUser } from "../actions";
 import { redirect } from "next/navigation";
 import { ChatComponent } from "@/components/chat-component";
+import { getSession } from "../actions";
 
 export default async function Chat() {
-  const user = await getUser();
-  if (!user.loggedIn) return redirect("/");
+  const { session, loggedIn } = await getSession();
 
-  return <ChatComponent user={user} />;
+  if (!loggedIn) {
+    redirect("/");
+  }
+
+  return <ChatComponent session={session} />;
 }

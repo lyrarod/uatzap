@@ -2,7 +2,6 @@
 import React from "react";
 
 import { db } from "@/lib/firebase";
-import { getUser } from "@/app/actions";
 import { redirect } from "next/navigation";
 
 import {
@@ -18,18 +17,19 @@ import { cn, delay } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Loader, SendHorizonal } from "lucide-react";
+import { getSession } from "@/app/actions";
 
-type messagesType = {
+type MessagesType = {
   [x: string]: any;
 }[];
 
-type UserType = {
+type SessionType = {
   uid?: string;
-  name?: string;
+  user?: string;
 };
 
-export const ChatComponent = ({ user }: { user: UserType }) => {
-  const [messages, setMessages] = React.useState<messagesType>([]);
+export const ChatComponent = ({ session }: { session: SessionType }) => {
+  const [messages, setMessages] = React.useState<MessagesType>([]);
   const [isLoading, setIsLoading] = React.useState(false);
 
   const messageRef = React.useRef<HTMLInputElement>(null);
@@ -66,17 +66,16 @@ export const ChatComponent = ({ user }: { user: UserType }) => {
 
     setIsLoading(true);
 
-    const { loggedIn } = await getUser();
+    const { loggedIn } = await getSession();
     if (!loggedIn) {
-      await delay(200);
+      await delay(500);
       redirect("/");
-      return false;
     }
 
     await addDoc(collection(db, "chatapp"), {
       user: {
-        uid: user?.uid,
-        name: user?.name,
+        uid: session?.uid,
+        name: session?.user,
       },
       text: messageRef.current?.value.trim(),
       agent: navigator?.userAgent,
@@ -97,22 +96,21 @@ export const ChatComponent = ({ user }: { user: UserType }) => {
           <li
             key={message.id}
             className={cn("w-full flex first:mt-auto", {
-              "justify-end": message.user.uid === user?.uid,
+              "justify-end": message.user.uid === session?.uid,
             })}
           >
             {
-              <p
+              <div
                 className={cn(
                   `dark:bg-secondary bg-white px-4 py-1.5 rounded-3xl w-max max-w-[90%] overflow-hidden break-words shadow rounded-bl-none dark:text-white`,
                   {
                     "!bg-primary/25 rounded-br-none rounded-bl-3xl":
-                      message.user.uid === user?.uid,
+                      message.user.uid === session?.uid,
                   }
                 )}
               >
-                <span className="font-semibold">{message.user.name}:</span>{" "}
-                {message.text}
-              </p>
+                <strong>{message.user.name}:</strong> {message.text}
+              </div>
             }
           </li>
         ))}

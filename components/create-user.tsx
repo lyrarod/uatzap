@@ -2,33 +2,34 @@
 import React from "react";
 
 import { useActionState } from "react";
-import { createUser } from "@/app/actions";
+import { createSession } from "@/app/actions";
 
 import { cn } from "@/lib/utils";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
-import { Loader, MessageCircleCodeIcon } from "lucide-react";
+import { Loader, MessageCircleCodeIcon, SendHorizonal } from "lucide-react";
 
 interface FormState {
   message: string;
-  success?: boolean;
+  success?: boolean | null;
 }
 
 const initialState: FormState = {
   message: "",
+  success: null,
 };
 
 export const CreateUser = () => {
   const [formState, formAction, pending] = useActionState(
-    createUser,
+    createSession,
     initialState
   );
   const [showMessage, setShowMessage] = React.useState(false);
   const inputRef = React.useRef<HTMLInputElement>(null);
 
   React.useEffect(() => {
-    inputRef.current?.focus();
     let timeout: NodeJS.Timeout;
+    // inputRef.current?.focus();
 
     if (formState?.success === false) {
       setShowMessage(true);
@@ -64,9 +65,9 @@ export const CreateUser = () => {
           disabled={pending}
           onChange={() => setShowMessage(false)}
           className={cn(
-            "placeholder:text-sm text-sm border-primary placeholder:italic placeholder:tracking-tight placeholder:text-border text-border",
+            "placeholder:text-sm text-sm border-primary placeholder:italic placeholder:tracking-tight",
             {
-              "border-red-500 placeholder:text-red-500 focus-visible:ring-red-500 animate-pulse ":
+              "border-red-500 placeholder:text-red-500 focus-visible:ring-red-500 animate-pulse":
                 showMessage,
             }
           )}
@@ -79,7 +80,10 @@ export const CreateUser = () => {
               Conectando...
             </>
           ) : (
-            "Conectar"
+            <>
+              <SendHorizonal />
+              Conectar
+            </>
           )}
         </Button>
       </form>

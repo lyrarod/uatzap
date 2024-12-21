@@ -1,10 +1,12 @@
-import { getUser } from "./actions";
+import { getSession } from "./actions";
 import { redirect } from "next/navigation";
 import { CreateUser } from "@/components/create-user";
 
 export default async function Home() {
-  const { loggedIn } = await getUser();
-  if (loggedIn) return redirect("/chat");
+  const { session, loggedIn } = await getSession();
+  console.log("session: ", session);
+
+  if (loggedIn) redirect("/chat");
 
   return (
     <main className="flex flex-col items-center justify-center min-h-screen">

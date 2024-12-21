@@ -4,21 +4,20 @@ import { cookies } from "next/headers";
 import { v4 as uuidv4 } from "uuid";
 import { delay } from "@/lib/utils";
 
-export async function getUser() {
+export async function getSession() {
   const cookieStore = await cookies();
 
   return {
-    uid: cookieStore.get("chatapp:uid")?.value,
-    name: cookieStore.get("chatapp:user")?.value,
-    loggedIn: cookieStore.has("chatapp:uid") && cookieStore.has("chatapp:user"),
+    loggedIn: cookieStore.has("chatapp"),
+    session: JSON.parse(cookieStore.get("chatapp")?.value || "{}"),
   };
 }
 
-export async function createUser(prevState: any, formData: FormData) {
+export async function createSession(prevState: any, formData: FormData) {
   const username = String(formData.get("username")).trim();
 
   if (!username) {
-    await delay(200);
+    await delay();
     return {
       success: false,
       message: "Por favor, digite seu nome de usuário",
@@ -26,15 +25,22 @@ export async function createUser(prevState: any, formData: FormData) {
   }
 
   if (username.length < 3) {
-    await delay(200);
+    await delay();
     return {
       success: false,
       message: "O usuário deve ter pelo menos 3 caracteres",
     };
   }
 
-  await delay(1500);
+  await delay(2000);
   const cookieStore = await cookies();
-  cookieStore.set("chatapp:uid", uuidv4(), { maxAge: 60 * 60 * 72 });
-  cookieStore.set("chatapp:user", username, { maxAge: 60 * 60 * 72 });
+  cookieStore.set({
+    name: "chatapp",
+    value: JSON.stringify({
+      uid: uuidv4(),
+      user: username,
+    }),
+    maxAge: 300,
+    // maxAge: 3600 * 24,
+  });
 }
